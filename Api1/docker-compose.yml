@@ -1,0 +1,38 @@
+version: '3.8'
+
+services:
+  code-executor:
+    build: .
+    ports:
+      - "3000:3000"
+    volumes:
+      - .:/app
+      - /var/run/docker.sock:/var/run/docker.sock
+    environment:
+      - PORT=3000
+    networks:
+      - code-network
+
+  python-runner:
+    build: ./docker/python
+    networks:
+      - code-network
+
+  javascript-runner:
+    build: ./docker/javascript
+    networks:
+      - code-network
+
+  cpp-runner:
+    build: ./docker/cpp
+    networks:
+      - code-network
+
+  java-runner:
+    build: ./docker/java
+    networks:
+      - code-network
+
+networks:
+  code-network:
+    driver: bridge

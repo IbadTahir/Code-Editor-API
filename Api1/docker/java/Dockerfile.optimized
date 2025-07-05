@@ -1,0 +1,13 @@
+# Optimized Java image with Maven
+FROM openjdk:17-slim
+
+# Install Maven
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    maven \
+    && rm -rf /var/lib/apt/lists/*
+
+# Create workspace directory
+WORKDIR /workspace
+
+# Keep container running
+CMD ["sh", "-c", "while true; do sleep 30; done"]

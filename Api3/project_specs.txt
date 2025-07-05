@@ -1,0 +1,76 @@
+Phase 4: Educational Features
+📖 Books Library
+Must have JWT sessions
+Book Data Model will have a detailed design
+
+•    - Upload and categorize books (PDF or links)
+With Associated No. Physical Copies owned by the org.
+Associated endpoints:
+
+https://we_proj/books/upload
+
+•    - Students can search, and read
+No downloading, i.e. anti download protection or watermarking with user data i.e. username
+limited time access like physical libraries.
+Associated endpoints:
+NOTE:: All lent books would be associated with a user_id
+
+https://we_proj/books/rentLend a book constrained by no. of physical copies
+https://we_proj/books/activeView all active borrows
+https://we_proj/books/returnremove a borrow
+https://we_proj/books/searchsearch based on tags or frequency
+https://we_proj/books/read/book_nameread a book named book_name
+https://we_proj/books/availablereturns only books with > 0 copies remaining
+https://we_proj/books/user_idreturns user rent history
+
+🎥 Video Lectures
+Must have JWT sessions
+•    - Upload/embed YouTube/Vimeo links
+
+Lecture associated with a user
+detailed metadata
+User Role must be Teacher/Instructor/Admin
+Lecture slides/notes can be attached
+Associated endpoint
+/video-lecture/lecture_id
+
+•    - Categorized by subject/topic
+
+associated endpoint::
+/video-lecture/search
+
+
+📝 Assignments & Quizzes
+maybe a combined datamodel with a switchable type of quiz or assignment
+•    - Instructors upload assignments/quizzes
+User role teacher/instructor can create an instance
+Associated Endpoints::
+/evaluators/create                     # Create a quiz or assignment
+/evaluators/list                       # List all created evaluators
+/evaluators/{evaluator_id}  
+
+•    - Students submit answers
+Student role can submit
+fields for text image and video submissions
+
+/evaluators/{evaluator_id}/submit      # Submit student response
+/evaluators/{evaluator_id}/status      # Get submission status (if submitted, graded, etc.)
+/evaluators/{evaluator_id}/view        # Student views their submission
+
+
+
+•    - Auto-evaluation for quizzes (MCQs)
+Gemini API integration for provisional assesment
+Provisonal results are displayed right away to the student
+associated Endpoints::
+
+/evaluators/{evaluator_id}/evaluate    # Trigger evaluation (MCQ / auto-gradable only)
+/evaluators/{evaluator_id}/result      # Get provisional result
+
+•    - Manual evaluation support for code submissions
+
+Associated Endpoints
+
+/evaluators/{evaluator_id}/grade       # Instructor posts final grade & feedback
+/evaluators/{evaluator_id}/submissions # Instructor views all student submissions
+/evaluators/{evaluator_id}/submission/{student_id}  # View specific student's submission

@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Test AI Quiz API</title>
+</head>
+<body>
+    <h1>AI Quiz API Test</h1>
+    <button onclick="testAPI()">Test AI Quiz Creation</button>
+    <div id="result"></div>
+
+    <script>
+        async function testAPI() {
+            const resultDiv = document.getElementById('result');
+            resultDiv.innerHTML = 'Testing...';
+            
+            try {
+                const response = await fetch('http://localhost:8000/api/v1/ai/create-from-ai-quiz', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        language: 'python',
+                        difficulty: 'intermediate',
+                        question_count: 5,
+                        include_mcq: true,
+                        include_theoretical: true,
+                        topic: 'test'
+                    })
+                });
+
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}, statusText: ${response.statusText}`);
+                }
+
+                const data = await response.json();
+                resultDiv.innerHTML = `<pre>Success: ${JSON.stringify(data, null, 2)}</pre>`;
+            } catch (error) {
+                resultDiv.innerHTML = `<pre>Error: ${error.message}\n\nStack: ${error.stack}</pre>`;
+                console.error('Detailed error:', error);
+            }
+        }
+    </script>
+</body>
+</html>

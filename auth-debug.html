@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Authentication Test & Fix</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        .result { margin: 10px 0; padding: 10px; border-radius: 5px; }
+        .success { background-color: #d4edda; color: #155724; border: 1px solid #c3e6cb; }
+        .error { background-color: #f8d7da; color: #721c24; border: 1px solid #f5c6cb; }
+        .info { background-color: #d1ecf1; color: #0c5460; border: 1px solid #bee5eb; }
+        button { margin: 5px; padding: 10px 15px; cursor: pointer; }
+        .test-section { margin: 20px 0; border: 1px solid #ddd; padding: 15px; border-radius: 5px; }
+    </style>
+</head>
+<body>
+    <h1>🔐 Authentication Test & Fix</h1>
+    
+    <div class="test-section">
+        <h3>Step 1: Check Authentication Status</h3>
+        <button onclick="checkAuthStatus()">Check Auth Status</button>
+        <div id="auth-status"></div>
+    </div>
+
+    <div class="test-section">
+        <h3>Step 2: Test Login (if needed)</h3>
+        <div>
+            <input type="email" id="email" placeholder="Email" value="admin@example.com">
+            <input type="password" id="password" placeholder="Password" value="admin123">
+            <button onclick="testLogin()">Test Login</button>
+        </div>
+        <div id="login-result"></div>
+    </div>
+
+    <div class="test-section">
+        <h3>Step 3: Test Book Deletion</h3>
+        <button onclick="testBookDeletion()">Test Delete Book (ID: 1)</button>
+        <div id="delete-result"></div>
+    </div>
+
+    <div class="test-section">
+        <h3>Step 4: Manual Token Test</h3>
+        <div>
+            <textarea id="manual-token" placeholder="Paste token here manually if needed" rows="3" style="width: 100%;"></textarea>
+            <button onclick="testWithManualToken()">Test with Manual Token</button>
+        </div>
+        <div id="manual-result"></div>
+    </div>
+
+    <script>
+        function log(elementId, message, type = 'info') {
+            const element = document.getElementById(elementId);
+            const div = document.createElement('div');
+            div.className = `result ${type}`;
+            div.innerHTML = message;
+            element.appendChild(div);
+        }
+
+        function clearLog(elementId) {
+            document.getElementById(elementId).innerHTML = '';
+        }
+
+        async function checkAuthStatus() {
+            clearLog('auth-status');
+            
+            const token = localStorage.getItem('token');
+            const user = localStorage.getItem('user');
+            
+            if (token) {
+                log('auth-status', `✅ Token found: ${token.substring(0, 20)}...`, 'success');
+                try {
+                    const userObj = JSON.parse(user);
+                    log('auth-status', `👤 User: ${userObj.email} (Role: ${userObj.role})`, 'info');
+                } catch (e) {
+                    log('auth-status', '⚠️ User data is corrupted', 'error');
+                }
+            } else {
+                log('auth-status', '❌ No token found. Please login first.', 'error');
+            }
+        }
+
+        async function testLogin() {
+            clearLog('login-result');
+            
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+            
+            try {
+                log('login-result', '🔄 Attempting login...', 'info');
+                
+                const response = await fetch('http://localhost:5000/api/auth/login', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ email, password })
+                });
+
+                if (response.ok) {
+                    const data = await response.json();
+                    localStorage.setItem('token', data.accessToken);
+                    localStorage.setItem('user', JSON.stringify(data.user));
+                    log('login-result', '✅ Login successful!', 'success');
+                    checkAuthStatus();
+                } else {
+                    const error = await response.text();
+                    log('login-result', `❌ Login failed: ${response.status} - ${error}`, 'error');
+                }
+            } catch (error) {
+                log('login-result', `❌ Login error: ${error.message}`, 'error');
+            }
+        }
+
+        async function testBookDeletion() {
+            clearLog('delete-result');
+            
+            const token = localStorage.getItem('token');
+            
+            if (!token) {
+                log('delete-result', '❌ No token found. Please login first.', 'error');
+                return;
+            }
+
+            try {
+                log('delete-result', '🔄 Testing book deletion...', 'info');
+                
+                const response = await fetch('http://localhost:8000/api/v1/books/1', {
+                    method: 'DELETE',
+                    headers: {
+                        'Authorization': `Bearer ${token}`,
+                        'Content-Type': 'application/json'
+                    }
+                });
+
+                if (response.ok) {
+                    log('delete-result', '✅ Book deletion successful!', 'success');
+                } else {
+                    const error = await response.text();
+                    log('delete-result', `❌ Delete failed: ${response.status} - ${error}`, 'error');
+                    
+                    // Additional debugging
+                    if (response.status === 401) {
+                        log('delete-result', '🔍 401 Error detected. Checking token format...', 'info');
+                        
+                        // Decode JWT to check
+                        try {
+                            const payload = JSON.parse(atob(token.split('.')[1]));
+                            log('delete-result', `🔍 Token payload: ${JSON.stringify(payload, null, 2)}`, 'info');
+                        } catch (e) {
+                            log('delete-result', '🔍 Invalid token format', 'error');
+                        }
+                    }
+                }
+            } catch (error) {
+                log('delete-result', `❌ Request error: ${error.message}`, 'error');
+            }
+        }
+
+        async function testWithManualToken() {
+            clearLog('manual-result');
+            
+            const manualToken = document.getElementById('manual-token').value.trim();
+            
+            if (!manualToken) {
+                log('manual-result', '❌ Please enter a token', 'error');
+                return;
+            }
+
+            localStorage.setItem('token', manualToken);
+            log('manual-result', '✅ Token updated in localStorage', 'success');
+            
+            // Test the token
+            await testBookDeletion();
+        }
+
+        // Auto-check auth status on load
+        window.onload = checkAuthStatus;
+    </script>
+</body>
+</html>

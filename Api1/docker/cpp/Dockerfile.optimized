@@ -1,0 +1,39 @@
+# Multi-stage build for optimized C++ environment
+FROM gcc:latest as base
+
+# Install common development tools and libraries
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    cmake \
+    make \
+    build-essential \
+    gdb \
+    valgrind \
+    git \
+    pkg-config \
+    && rm -rf /var/lib/apt/lists/*
+
+# Install common C++ libraries
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    libboost-all-dev \
+    libeigen3-dev \
+    libgtest-dev \
+    nlohmann-json3-dev \
+    libfmt-dev \
+    && rm -rf /var/lib/apt/lists/*
+
+# Build and install Google Test
+RUN cd /usr/src/gtest && \
+    cmake . && \
+    make && \
+    cp lib/*.a /usr/lib/
+
+# Set working directory
+WORKDIR /workspace
+
+# Verify installation
+RUN g++ --version && \
+    cmake --version && \
+    echo "C++ optimized environment ready"
+
+# Default command
+CMD ["/bin/bash"]

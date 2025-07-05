@@ -1,0 +1,41 @@
+{
+  "name": "code-editor-platform",
+  "version": "1.0.0",
+  "description": "A full-stack code editor platform with educational features",
+  "main": "dist/app.js",
+  "scripts": {
+    "start": "node dist/app.js",
+    "dev": "ts-node-dev --respawn --transpile-only src/app.ts",
+    "build": "tsc",
+    "test": "cross-env NODE_ENV=test ts-node-dev src/app.ts"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@types/bcryptjs": "^2.4.6",
+    "@types/cors": "^2.8.18",
+    "@types/express": "^5.0.2",
+    "@types/jsonwebtoken": "^9.0.9",
+    "@types/node": "^22.15.29",
+    "@types/sqlite3": "^3.1.11",
+    "bcryptjs": "^3.0.2",
+    "cors": "^2.8.5",
+    "cross-env": "^7.0.3",
+    "dotenv": "^16.5.0",
+    "express": "^5.1.0",
+    "express-rate-limit": "^7.5.0",
+    "express-validator": "^7.2.1",
+    "helmet": "^7.2.0",
+    "jsonwebtoken": "^9.0.2",
+    "reflect-metadata": "^0.2.2",
+    "sqlite3": "^5.1.7",
+    "ts-node-dev": "^2.0.0",
+    "typeorm": "^0.3.24",
+    "typescript": "^5.8.3",
+    "winston": "^3.17.0"
+  },
+  "devDependencies": {
+    "@types/express-rate-limit": "^5.1.3"
+  }
+}

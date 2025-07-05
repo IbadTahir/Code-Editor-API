@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Test Authentication</title>
+</head>
+<body>
+    <h1>Authentication Test</h1>
+    <div id="result"></div>
+    
+    <script>
+        async function testAuth() {
+            const token = localStorage.getItem('token');
+            const user = JSON.parse(localStorage.getItem('user') || '{}');
+            
+            console.log('Token:', token);
+            console.log('User:', user);
+            
+            if (!token) {
+                document.getElementById('result').innerHTML = 'No token found in localStorage';
+                return;
+            }
+            
+            try {
+                // Test with the delete endpoint
+                const response = await fetch('http://localhost:8000/api/v1/books/1', {
+                    method: 'DELETE',
+                    headers: {
+                        'Authorization': `Bearer ${token}`,
+                        'Content-Type': 'application/json'
+                    }
+                });
+                
+                console.log('Response status:', response.status);
+                
+                if (response.ok) {
+                    document.getElementById('result').innerHTML = 'Authentication successful!';
+                } else {
+                    const error = await response.text();
+                    console.log('Error response:', error);
+                    document.getElementById('result').innerHTML = `Error: ${response.status} - ${error}`;
+                }
+            } catch (error) {
+                console.error('Request error:', error);
+                document.getElementById('result').innerHTML = `Request failed: ${error.message}`;
+            }
+        }
+        
+        testAuth();
+    </script>
+</body>
+</html>

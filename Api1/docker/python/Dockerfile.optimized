@@ -1,0 +1,29 @@
+# Optimized Python image with pre-installed packages
+FROM python:3.11-slim
+
+# Install system dependencies once
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    build-essential \
+    && rm -rf /var/lib/apt/lists/*
+
+# Create workspace directory
+WORKDIR /workspace
+
+# Pre-install common Python packages
+RUN pip install --no-cache-dir --upgrade pip && \
+    pip install --no-cache-dir \
+    requests \
+    json5 \
+    urllib3 \
+    numpy \
+    pandas \
+    matplotlib \
+    seaborn \
+    scipy \
+    pillow \
+    flask \
+    fastapi \
+    beautifulsoup4
+
+# Keep container running
+CMD ["sh", "-c", "while true; do sleep 30; done"]

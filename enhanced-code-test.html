@@ -1,0 +1,428 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Enhanced Code Execution Test</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        .container {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        .language-section {
+            border: 1px solid #ddd;
+            margin: 10px 0;
+            border-radius: 5px;
+        }
+        .language-header {
+            background-color: #2563eb;
+            color: white;
+            padding: 10px;
+            font-weight: bold;
+            cursor: pointer;
+            user-select: none;
+        }
+        .language-content {
+            padding: 15px;
+            display: none;
+        }
+        .language-content.active {
+            display: block;
+        }
+        .code-editor {
+            width: 100%;
+            height: 200px;
+            font-family: 'Courier New', monospace;
+            border: 1px solid #ccc;
+            padding: 10px;
+            border-radius: 5px;
+            font-size: 14px;
+        }
+        .output {
+            background-color: #1e1e1e;
+            color: #ffffff;
+            padding: 15px;
+            border-radius: 5px;
+            font-family: 'Courier New', monospace;
+            font-size: 14px;
+            white-space: pre-wrap;
+            max-height: 300px;
+            overflow-y: auto;
+            margin-top: 10px;
+        }
+        .error {
+            background-color: #dc2626;
+            color: white;
+            padding: 10px;
+            border-radius: 5px;
+            margin-top: 10px;
+        }
+        .success {
+            background-color: #16a34a;
+            color: white;
+            padding: 10px;
+            border-radius: 5px;
+            margin-top: 10px;
+        }
+        .btn {
+            background-color: #2563eb;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 5px;
+            font-size: 14px;
+        }
+        .btn:hover {
+            background-color: #1d4ed8;
+        }
+        .loading {
+            display: none;
+            color: #2563eb;
+            font-style: italic;
+        }
+        .packages-input {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            margin: 5px 0;
+        }
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 10px;
+            margin-top: 10px;
+        }
+        .stat-card {
+            background-color: #f8fafc;
+            padding: 10px;
+            border-radius: 5px;
+            border: 1px solid #e2e8f0;
+        }
+        .stat-label {
+            font-size: 12px;
+            color: #64748b;
+            font-weight: 500;
+        }
+        .stat-value {
+            font-size: 16px;
+            font-weight: bold;
+            color: #1e293b;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Enhanced Code Execution Test</h1>
+        <p>Test the enhanced code execution system that supports loops, functions, library imports, and dynamic package installation for all supported languages.</p>
+        
+        <div class="container">
+            <h3>Quick Actions</h3>
+            <button class="btn" onclick="loadSupportedLanguages()">Load Supported Languages</button>
+            <button class="btn" onclick="testPython()">Test Python</button>
+            <button class="btn" onclick="testJavaScript()">Test JavaScript</button>
+            <button class="btn" onclick="testGo()">Test Go</button>
+            
+            <div id="languageStats" class="stats" style="margin-top: 15px;"></div>
+        </div>
+    </div>
+
+    <div id="languagesContainer">
+        <div class="container">
+            <h3>Python Test</h3>
+            <textarea id="pythonCode" class="code-editor"># Python Example - Loops, Functions, Imports
+import math
+import random
+
+def fibonacci(n):
+    if n <= 1:
+        return n
+    return fibonacci(n-1) + fibonacci(n-2)
+
+print("Python Advanced Features Demo:")
+print("1. Loop test:")
+for i in range(5):
+    print(f"  Count: {i}")
+
+print("2. Function test:")
+print(f"  Fibonacci(10): {fibonacci(10)}")
+
+print("3. Import test:")
+print(f"  Square root of 16: {math.sqrt(16)}")
+print(f"  Random number: {random.randint(1, 100)}")
+
+print("4. List comprehension:")
+squares = [x**2 for x in range(10)]
+print(f"  Squares: {squares}")
+</textarea>
+            <div>
+                <button class="btn" onclick="executePython()">Execute Python</button>
+                <div class="loading" id="pythonLoading">Executing...</div>
+            </div>
+            <div id="pythonOutput"></div>
+        </div>
+
+        <div class="container">
+            <h3>JavaScript Test</h3>
+            <textarea id="jsCode" class="code-editor">// JavaScript Example - Loops, Functions, Modules
+const util = require('util');
+
+function factorial(n) {
+    if (n <= 1) return 1;
+    return n * factorial(n - 1);
+}
+
+console.log("JavaScript Advanced Features Demo:");
+console.log("1. Loop test:");
+for (let i = 0; i < 5; i++) {
+    console.log(`  Count: ${i}`);
+}
+
+console.log("2. Function test:");
+console.log(`  Factorial(10): ${factorial(10)}`);
+
+console.log("3. Array methods:");
+const numbers = [1, 2, 3, 4, 5];
+const doubled = numbers.map(x => x * 2);
+console.log(`  Doubled: ${doubled}`);
+
+console.log("4. Object operations:");
+const obj = { name: "Test", value: 42 };
+console.log(`  Object: ${util.inspect(obj)}`);
+</textarea>
+            <div>
+                <button class="btn" onclick="executeJavaScript()">Execute JavaScript</button>
+                <div class="loading" id="jsLoading">Executing...</div>
+            </div>
+            <div id="jsOutput"></div>
+        </div>
+
+        <div class="container">
+            <h3>Go Test</h3>
+            <textarea id="goCode" class="code-editor">package main
+
+import (
+    "fmt"
+    "math"
+)
+
+func fibonacci(n int) int {
+    if n <= 1 {
+        return n
+    }
+    return fibonacci(n-1) + fibonacci(n-2)
+}
+
+func main() {
+    fmt.Println("Go Advanced Features Demo:")
+    fmt.Println("1. Loop test:")
+    for i := 0; i < 5; i++ {
+        fmt.Printf("  Count: %d\n", i)
+    }
+    
+    fmt.Println("2. Function test:")
+    fmt.Printf("  Fibonacci(10): %d\n", fibonacci(10))
+    
+    fmt.Println("3. Math operations:")
+    fmt.Printf("  Square root of 16: %f\n", math.Sqrt(16))
+    
+    fmt.Println("4. Slice operations:")
+    slice := []int{1, 2, 3, 4, 5}
+    fmt.Printf("  Original slice: %v\n", slice)
+}
+</textarea>
+            <div>
+                <button class="btn" onclick="executeGo()">Execute Go</button>
+                <div class="loading" id="goLoading">Executing...</div>
+            </div>
+            <div id="goOutput"></div>
+        </div>
+    </div>
+
+    <script>
+        const API_BASE = 'http://localhost:3000/api';
+
+        async function loadSupportedLanguages() {
+            try {
+                showLoading('languageStats', true);
+                const response = await fetch(API_BASE + '/enhanced-execution/languages');
+                const data = await response.json();
+                
+                if (data.success) {
+                    displayLanguageStats(data.data);
+                    showSuccess('languageStats', 'Languages loaded successfully: ' + data.data.languages.length + ' languages available');
+                } else {
+                    showError('languageStats', 'Failed to load languages: ' + data.error);
+                }
+            } catch (error) {
+                showError('languageStats', 'Error loading languages: ' + error.message);
+            } finally {
+                showLoading('languageStats', false);
+            }
+        }
+
+        function displayLanguageStats(data) {
+            const container = document.getElementById('languageStats');
+            container.innerHTML = 
+                '<div class="stat-card">' +
+                    '<div class="stat-label">Total Languages</div>' +
+                    '<div class="stat-value">' + data.totalLanguages + '</div>' +
+                '</div>' +
+                '<div class="stat-card">' +
+                    '<div class="stat-label">Supported Features</div>' +
+                    '<div class="stat-value">' + data.supportedFeatures.length + '</div>' +
+                '</div>' +
+                '<div class="stat-card">' +
+                    '<div class="stat-label">Package Installation</div>' +
+                    '<div class="stat-value">' + data.languages.filter(l => l.supportsPackageInstall).length + ' langs</div>' +
+                '</div>';
+        }
+
+        async function executePython() {
+            await executeCode('python', 'pythonCode', 'pythonOutput', 'pythonLoading');
+        }
+
+        async function executeJavaScript() {
+            await executeCode('javascript', 'jsCode', 'jsOutput', 'jsLoading');
+        }
+
+        async function executeGo() {
+            await executeCode('go', 'goCode', 'goOutput', 'goLoading');
+        }
+
+        async function testPython() {
+            await testLanguage('python', 'pythonOutput', 'pythonLoading');
+        }
+
+        async function testJavaScript() {
+            await testLanguage('javascript', 'jsOutput', 'jsLoading');
+        }
+
+        async function testGo() {
+            await testLanguage('go', 'goOutput', 'goLoading');
+        }
+
+        async function executeCode(language, codeElementId, outputElementId, loadingElementId) {
+            const code = document.getElementById(codeElementId).value;
+            if (!code.trim()) {
+                showError(outputElementId, 'Please enter some code to execute');
+                return;
+            }
+
+            try {
+                showLoading(loadingElementId, true);
+                
+                const response = await fetch(API_BASE + '/enhanced-execution/execute', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        code: code,
+                        language: language
+                    })
+                });
+
+                const data = await response.json();
+                
+                if (data.success) {
+                    showResult(outputElementId, data.data.result, 'Executed ' + language + ' code successfully');
+                } else {
+                    showError(outputElementId, 'Execution failed: ' + data.error);
+                }
+            } catch (error) {
+                showError(outputElementId, 'Network error: ' + error.message);
+            } finally {
+                showLoading(loadingElementId, false);
+            }
+        }
+
+        async function testLanguage(language, outputElementId, loadingElementId) {
+            try {
+                showLoading(loadingElementId, true);
+                
+                const response = await fetch(API_BASE + '/enhanced-execution/test', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ language: language })
+                });
+
+                const data = await response.json();
+                
+                if (data.success) {
+                    showResult(outputElementId, data.data.result, 'Built-in test for ' + language + ' completed');
+                } else {
+                    showError(outputElementId, 'Test failed: ' + data.error);
+                }
+            } catch (error) {
+                showError(outputElementId, 'Network error: ' + error.message);
+            } finally {
+                showLoading(loadingElementId, false);
+            }
+        }
+
+        function showResult(elementId, result, message) {
+            const element = document.getElementById(elementId);
+            element.innerHTML = 
+                '<div class="success">' + message + '</div>' +
+                '<div class="output">' + formatOutput(result) + '</div>';
+        }
+
+        function showError(elementId, error) {
+            const element = document.getElementById(elementId);
+            element.innerHTML = '<div class="error">' + error + '</div>';
+        }
+
+        function showSuccess(elementId, message) {
+            const element = document.getElementById(elementId);
+            element.innerHTML = '<div class="success">' + message + '</div>';
+        }
+
+        function showLoading(elementId, show) {
+            const element = document.getElementById(elementId);
+            if (element) {
+                element.style.display = show ? 'block' : 'none';
+            }
+        }
+
+        function formatOutput(result) {
+            if (!result) return 'No output';
+            
+            let formatted = '';
+            
+            if (result.output) {
+                formatted += 'Output:\n' + result.output + '\n';
+            }
+            
+            if (result.error) {
+                formatted += '\nErrors:\n' + result.error + '\n';
+            }
+            
+            if (result.executionTime !== undefined) {
+                formatted += '\nExecution Time: ' + result.executionTime + 'ms';
+            }
+            
+            if (result.exitCode !== undefined) {
+                formatted += '\nExit Code: ' + result.exitCode;
+            }
+            
+            return formatted || 'No output';
+        }
+
+        // Initialize the page
+        window.onload = function() {
+            loadSupportedLanguages();
+        };
+    </script>
+</body>
+</html>

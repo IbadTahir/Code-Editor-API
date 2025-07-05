@@ -1,0 +1,125 @@
+{
+    "info": {
+        "name": "Educational Platform API",
+        "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+    },
+    "item": [
+        {
+            "name": "Evaluators",
+            "item": [
+                {
+                    "name": "Create Evaluator (Teacher)",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer {{teacher_token}}"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n    \"title\": \"Python Basics Quiz\",\n    \"description\": \"Test your Python fundamentals\",\n    \"type\": \"quiz\",\n    \"submission_type\": \"text\",\n    \"is_auto_eval\": true,\n    \"deadline\": \"2025-06-30T23:59:59Z\"\n}",
+                            "options": {
+                                "raw": {
+                                    "language": "json"
+                                }
+                            }
+                        },
+                        "url": {
+                            "raw": "{{base_url}}/api/v1/evaluators/create",
+                            "host": ["{{base_url}}"],
+                            "path": ["api", "v1", "evaluators", "create"]
+                        }
+                    }
+                },
+                {
+                    "name": "List Evaluators",
+                    "request": {
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer {{student_token}}"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{base_url}}/api/v1/evaluators/list",
+                            "host": ["{{base_url}}"],
+                            "path": ["api", "v1", "evaluators", "list"]
+                        }
+                    }
+                },
+                {
+                    "name": "Submit Response",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer {{student_token}}"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n    \"submission_content\": \"1. Python is dynamically typed\\n2. Lists are mutable\\n3. Tuples are immutable\"\n}",
+                            "options": {
+                                "raw": {
+                                    "language": "json"
+                                }
+                            }
+                        },
+                        "url": {
+                            "raw": "{{base_url}}/api/v1/evaluators/1/submit",
+                            "host": ["{{base_url}}"],
+                            "path": ["api", "v1", "evaluators", "1", "submit"]
+                        }
+                    }
+                },
+                {
+                    "name": "Grade Submission",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer {{teacher_token}}"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n    \"grade\": 95,\n    \"feedback\": \"Excellent understanding of Python fundamentals!\"\n}",
+                            "options": {
+                                "raw": {
+                                    "language": "json"
+                                }
+                            }
+                        },
+                        "url": {
+                            "raw": "{{base_url}}/api/v1/evaluators/1/grade/1",
+                            "host": ["{{base_url}}"],
+                            "path": ["api", "v1", "evaluators", "1", "grade", "1"]
+                        }
+                    }
+                },
+                {
+                    "name": "Get Submissions",
+                    "request": {
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer {{teacher_token}}"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{base_url}}/api/v1/evaluators/1/submissions",
+                            "host": ["{{base_url}}"],
+                            "path": ["api", "v1", "evaluators", "1", "submissions"]
+                        }
+                    }
+                }
+            ]
+        }
+    ]
+}

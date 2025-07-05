@@ -1,0 +1,149 @@
+# Dependencies
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+package-lock.json
+yarn.lock
+
+# Build output
+dist/
+build/
+*.tsbuildinfo
+
+# Environment variables
+.env
+.env.local
+.env.development
+.env.test
+.env.production
+.env.*.local
+
+# Docker
+.docker/
+docker-compose.override.yml
+
+# IDE and editor files
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+
+# Test and debug files (temporary development files)
+*-test.js
+*-debug.js
+*websocket*.js
+socketio-test.js
+simple-input-test.js
+manual-input-test.js
+improved-input-test.js
+debug-timing-test.js
+multi-input-test.js
+two-input-test.js
+stdin-test.js
+complete-websocket-test.js
+full-websocket-test.js
+comprehensive-websocket-test.js
+terminal-and-input-test.js
+debug-websocket.js
+
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Logs
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+lerna-debug.log*
+
+# Runtime data
+pids/
+*.pid
+*.seed
+*.pid.lock
+
+# Test coverage
+coverage/
+*.lcov
+.nyc_output
+
+# Temporary files
+temp/
+tmp/
+.tmp/
+
+# TypeScript
+*.tsbuildinfo
+*.js.map
+
+# Database files
+*.db
+*.sqlite
+*.sqlite3
+data/*.db
+data/*.sqlite
+
+# Backup files
+*.bak
+*.backup
+*.old
+
+# Certificate files
+*.pem
+*.key
+*.crt
+
+# Cache directories
+.npm
+.eslintcache
+.rpt2_cache/
+.rts2_cache_cjs/
+.rts2_cache_es/
+.rts2_cache_umd/
+.cache
+.parcel-cache
+
+# Optional files
+.node_repl_history
+*.tgz
+.yarn-integrity
+
+# Local development
+.local/
+local/
+
+# MacOS specific
+.AppleDouble
+.LSOverride
+Icon
+.DocumentRevisions-V100
+.fseventsd
+.TemporaryItems
+.VolumeIcon.icns
+.com.apple.timemachine.donotpresent
+.AppleDB
+.AppleDesktop
+Network Trash Folder
+Temporary Items
+.apdisk
+
+# Windows specific
+Desktop.ini
+$RECYCLE.BIN/
+*.cab
+*.msi
+*.msm
+*.msp
+*.lnk
+
+# VS Code workspace files
+*.code-workspace
